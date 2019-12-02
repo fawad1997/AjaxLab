@@ -1,0 +1,63 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Courses</title>
+    <link href="~/Stylesheets/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.js"></script>
+</head>
+<body>
+
+    
+
+
+    <div class="container">  
+        <form>
+            <div class="form-group">
+                <label>Course Code</label>
+                <input type="text" class="form-control" placeholder="Course Code" />
+            </div>
+            <div class="form-group">
+                <label>Title</label>
+                <input type="text" class="form-control" placeholder="Title" />
+            </div>
+            <button class="btn btn-primary" type="submit">Save  into list</button>
+        </form>
+        <hr/>
+               
+       <table class="table table-hover">             
+            <thead>                 
+            <tr><th>Course Code</th><th>Title</th></tr>             
+            </thead>             
+            <tbody id="coursetbody"></tbody>         
+        </table>     
+    </div>
+    <script>
+        $(document).ready(function(){
+            getCourses();
+        });
+
+        function getCourses() {
+            $.ajax({
+                type: "post",
+                url: "/Home/GetCourses",
+                success: function (result) {
+                    $("#coursetbody").html("");
+                    for (r in result) {
+                        $("#coursetbody").append("<tr><td>" + result[r].CourseCode + "</td><td>" + result[r].Title + "</td></tr>");
+                    }
+                },
+                error: function (result) {
+                    alert("Error");
+                }
+            })
+        }
+    </script>
+</body>
+</html>
