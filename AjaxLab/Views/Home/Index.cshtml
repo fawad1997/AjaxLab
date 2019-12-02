@@ -18,17 +18,19 @@
 
 
     <div class="container">  
-        <form>
+        <form method="post" onsubmit="return addCourse(this)">
             <div class="form-group">
                 <label>Course Code</label>
-                <input type="text" class="form-control" placeholder="Course Code" />
+                <input name="CourseCode" type="text" class="form-control" placeholder="Course Code" />
             </div>
             <div class="form-group">
                 <label>Title</label>
-                <input type="text" class="form-control" placeholder="Title" />
+                <input name="Title" type="text" class="form-control" placeholder="Title" />
             </div>
             <button class="btn btn-primary" type="submit">Save  into list</button>
         </form>
+
+
         <hr/>
                
        <table class="table table-hover">             
@@ -57,6 +59,21 @@
                     alert("Error");
                 }
             })
+        }
+
+        function addCourse(form) {
+            $.ajax({
+                type: "post",
+                url: "/Home/AddCourse",
+                data: $(form).serialize(),
+                success: function (result) {
+                    getCourses();
+                },
+                error: function (result) {
+                    alert("Error");
+                }
+            })
+            return false;
         }
     </script>
 </body>

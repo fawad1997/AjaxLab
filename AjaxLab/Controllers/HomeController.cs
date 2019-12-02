@@ -23,5 +23,14 @@ namespace AjaxLab.Controllers
         {
             return Json(_courses);
         }
+        [HttpPost]
+        public JsonResult AddCourse(Course course)
+        {
+            if (ModelState.IsValid)
+            {
+                _courses.Add(course);
+            }
+            return Json("");
+        }
     }
 }
