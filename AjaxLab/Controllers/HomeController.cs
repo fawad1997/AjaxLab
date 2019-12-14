@@ -32,5 +32,18 @@ namespace AjaxLab.Controllers
             }
             return Json("");
         }
+
+        [HttpPost]
+        public JsonResult DeleteCourse(String ccode)
+        {
+            //First find course with that id
+            Course c = _courses.Find(x => x.CourseCode.Equals(ccode));
+            //if course is found, means c is not equal to null, then remove that course from the list.
+            if (c != null)
+            {
+                _courses.Remove(c);
+            }
+            return Json("");
+        }
     }
 }

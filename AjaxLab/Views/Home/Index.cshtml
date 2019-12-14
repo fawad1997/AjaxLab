@@ -75,7 +75,7 @@
                 success: function (result) {
                     $("#coursetbody").html("");
                     for (r in result) {
-                        $("#coursetbody").append("<tr><td>" + result[r].CourseCode + "</td><td>" + result[r].Title + "</td></tr>");
+                        $("#coursetbody").append("<tr><td>" + result[r].CourseCode + "</td><td>" + result[r].Title + "</td><td><button onClick='deleteCourse(\""+result[r].CourseCode+"\")' type='button' class='btn btn-danger'>Delete</button></td></tr>");
                     }
                 },
                 error: function (result) {
@@ -98,6 +98,22 @@
                 }
             })
             return false;
+        }
+
+        function deleteCourse(courseCode) {
+            var myobj = { ccode: courseCode };
+            debugger;
+            $.ajax({
+                type: "post",
+                url: "/Home/DeleteCourse",
+                data: myobj,
+                success: function (result) {
+                    getCourses();
+                },
+                error: function (result) {
+                    alert("Error");
+                }
+            })
         }
     </script>
 </body>
