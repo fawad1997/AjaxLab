@@ -45,5 +45,31 @@ namespace AjaxLab.Controllers
             }
             return Json("");
         }
+        [HttpPost]
+        public JsonResult GetCourse(String ccode)
+        {
+            //First find course with that id
+            Course c = _courses.Find(x => x.CourseCode.Equals(ccode));
+            //if course is found, means c is not equal to null.
+            if (c != null)
+            {
+                return Json(c);
+            }
+            return Json("");
+        }
+
+        [HttpPost]
+        public JsonResult UpdateCourse(Course course)
+        {
+            if (ModelState.IsValid)
+            {
+                Course c = _courses.Find(x => x.CourseCode.Equals(course.CourseCode));
+                if (c != null)
+                {
+                    c.Title = course.Title;
+                }
+            }
+            return Json("");
+        }
     }
 }

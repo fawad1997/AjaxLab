@@ -36,15 +36,16 @@
                     </div>
                     <div class="modal-body">
                         <form method="post" onsubmit="return addCourse(this)">
-                            <div class="form-group">
+                            <div id="CourseCodeDiv" class="form-group">
                                 <label>Course Code</label>
-                                <input name="CourseCode" type="text" class="form-control" placeholder="Course Code" />
+                                <input id="CourseCode" name="CourseCode" type="text" class="form-control" placeholder="Course Code" />
                             </div>
                             <div class="form-group">
                                 <label>Title</label>
-                                <input name="Title" type="text" class="form-control" placeholder="Title" />
+                                <input id="Title" name="Title" type="text" class="form-control" placeholder="Title" />
                             </div>
-                            <button class="btn btn-primary" type="submit">Save</button>
+                            <button id="saveBtn" class="btn btn-primary" type="submit">Save</button>
+                            <button style="display:none;" id="updateBtn" class="btn btn-primary" type="button">Update</button>
                         </form>
                     </div>
                 </div>
@@ -75,7 +76,7 @@
                 success: function (result) {
                     $("#coursetbody").html("");
                     for (r in result) {
-                        $("#coursetbody").append("<tr><td>" + result[r].CourseCode + "</td><td>" + result[r].Title + "</td><td><button onClick='deleteCourse(\""+result[r].CourseCode+"\")' type='button' class='btn btn-danger'>Delete</button></td></tr>");
+                        $("#coursetbody").append("<tr><td>" + result[r].CourseCode + "</td><td>" + result[r].Title + "</td><td><button onClick='editCourse(\""+result[r].CourseCode+"\")' type='button' class='btn btn-info'>Edit</button></td><td><button onClick='deleteCourse(\""+result[r].CourseCode+"\")' type='button' class='btn btn-danger'>Delete</button></td></tr>");
                     }
                 },
                 error: function (result) {
@@ -92,6 +93,8 @@
                 success: function (result) {
                     getCourses();
                     $("#courseModal").modal("toggle");
+                    $("#CourseCode").val("");
+                    $("#Title").val("");
                 },
                 error: function (result) {
                     alert("Error");
@@ -115,6 +118,46 @@
                 }
             })
         }
+        function editCourse(courseCode) {
+            var myobj = { ccode: courseCode };
+            //Populate Data to Model and then show model on edit button click
+            $.ajax({
+                type: "post",
+                url: "/Home/GetCourse",
+                data: myobj,
+                success: function (result) {
+                    $("#CourseCodeDiv").hide();
+                    $("#saveBtn").hide();
+                    $("#updateBtn").show();
+                    $("#CourseCode").val(result.CourseCode);
+                    $("#Title").val(result.Title);
+                    $("#courseModal").modal("toggle");
+                },
+                error: function (result) {
+                    alert("Error");
+                }
+            })
+        }
+        $("#updateBtn").click(function () {
+            var dataToSend = { CourseCode: $("#CourseCode").val(), Title: $("#Title").val() };
+            $.ajax({
+                type: "post",
+                url: "/Home/UpdateCourse",
+                data: dataToSend,
+                success: function (result) {
+                    getCourses();
+                    $("#courseModal").modal("toggle");
+                    $("#CourseCodeDiv").show();
+                    $("#saveBtn").show();
+                    $("#updateBtn").hide();
+                    $("#CourseCode").val("");
+                    $("#Title").val("");
+                },
+                error: function (result) {
+                    alert("Error");
+                }
+            })
+        })
     </script>
 </body>
 </html>
