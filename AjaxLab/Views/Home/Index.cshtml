@@ -11,34 +11,57 @@
     <title>Courses</title>
     <link href="~/Stylesheets/bootstrap.css" rel="stylesheet" />
     <script src="~/Scripts/jquery.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
 </head>
 <body>
 
     
 
 
-    <div class="container">  
-        <form method="post" onsubmit="return addCourse(this)">
-            <div class="form-group">
-                <label>Course Code</label>
-                <input name="CourseCode" type="text" class="form-control" placeholder="Course Code" />
+    <div class="container">
+
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#courseModal">
+            Add Course
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="courseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Course</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" onsubmit="return addCourse(this)">
+                            <div class="form-group">
+                                <label>Course Code</label>
+                                <input name="CourseCode" type="text" class="form-control" placeholder="Course Code" />
+                            </div>
+                            <div class="form-group">
+                                <label>Title</label>
+                                <input name="Title" type="text" class="form-control" placeholder="Title" />
+                            </div>
+                            <button class="btn btn-primary" type="submit">Save</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label>Title</label>
-                <input name="Title" type="text" class="form-control" placeholder="Title" />
-            </div>
-            <button class="btn btn-primary" type="submit">Save  into list</button>
-        </form>
+        </div>
+
+        
 
 
-        <hr/>
-               
-       <table class="table table-hover">             
-            <thead>                 
-            <tr><th>Course Code</th><th>Title</th></tr>             
-            </thead>             
-            <tbody id="coursetbody"></tbody>         
-        </table>     
+        <hr />
+
+        <table class="table table-hover">
+            <thead>
+                <tr><th>Course Code</th><th>Title</th></tr>
+            </thead>
+            <tbody id="coursetbody"></tbody>
+        </table>
     </div>
     <script>
         $(document).ready(function(){
@@ -68,6 +91,7 @@
                 data: $(form).serialize(),
                 success: function (result) {
                     getCourses();
+                    $("#courseModal").modal("toggle");
                 },
                 error: function (result) {
                     alert("Error");

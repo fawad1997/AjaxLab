@@ -24,6 +24,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -90,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\jquery.js" />
     <Content Include="Stylesheets\bootstrap.css" />
     <Content Include="Web.config" />
@@ -163,5 +165,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-
 </Project>
